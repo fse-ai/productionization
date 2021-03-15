@@ -1,17 +1,20 @@
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
+import torch.nn.functional as f
 
 
-class RNN(nn.Module):
-    def __init__(self, input_dim, embedding_dim, hidden_dim, output_dim):
-        super(RMM, self).__init__()
-        self.embedding = nn.Embedding(input_dim, embedding_dim)
-        self.rnn = nn.RNN(embedding_dim, hidden_dim)
-        self.fc = nn.Linear(hidden_dim, output_dim)
+class TextClassificationModel(nn.Module):
+    def __init__(self, vocab_size, embedding_size, num_class, predict=False):
+        super(TextClassificationModel, self).__init__()
+        self.predict = predict
+        self.embedding = nn.EmbeddingBag(vocab_size, embedding_size, sparse=True)
+        self.fc = nn.Linear(embedding_size, num_class)
+        self.embedding.weight.data.uniform_(-0.5, 0.5)
+        self.fc.weight.data.uniform_(-0.5, 0.5)
+        self.fc.bias.data.zero_()
 
-    def forward(self, text):
-        embedding = self.embedding(text)
-        output, hidden = self.rnn(embedding)
-        assert torch.equal(output[1, :, :], hidden.squeeze(0))
-        return self.fc(hidden.squeeze(0))
+    def forward(self, text, offsets):
+        embedded = self.embedding(text, offsets)
+        if self.predict:
+            return f.softmax(self.fc(embedded))
+        return self.fc(embedded)
