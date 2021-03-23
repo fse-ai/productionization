@@ -1,3 +1,8 @@
-# Sentiment Analysis WebApp
+# News text classifier WebApp
 
-Sentiment analysis webapp to teach concepts on how to do the following.
+
+To run the webapp, launch the command prompt and go back a directory.
+Run the command: 
+```
+uvicorn sentiment_classification.main:app --reload
+```
