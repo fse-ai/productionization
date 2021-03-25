@@ -21,7 +21,7 @@ class MLP(nn.Module):
         x = torch.sigmoid(self.linear2(x))
         x = torch.sigmoid(self.linear3(x))
         if self.inference:
-            return f.softmax(self.out(x))
+            return f.softmax(self.out(x), dim=0)
         return self.out(x)
 
 
