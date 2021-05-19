@@ -1,12 +1,12 @@
 import torch.nn as nn
 import torch.nn.functional as f
 
-import torchvision.transforms as transforms
+import torchvision.transforms as t
 
 
-transforms = transforms.Compose([
-    transforms.ToTensor(),
-    transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+transforms = t.Compose([
+    t.ToTensor(),
+    t.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
 ])
 
 
